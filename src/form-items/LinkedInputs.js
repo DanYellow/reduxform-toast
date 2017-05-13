@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { map } from 'lodash';
+import { map, compact, debounce } from 'lodash';
 import uuidV4 from 'uuid/v4';
 
 export default class LinkedInputs extends React.Component {
@@ -8,9 +8,21 @@ export default class LinkedInputs extends React.Component {
     super(props);
 
     this.values = [];
+
+    const TAB_KEY = 9;
+    const SHIFT_KEY = 16;
+    this.acceptableKeyCodes = [TAB_KEY, SHIFT_KEY];
+
+    this.state = {
+      showHint: false,
+    }
   }
 
   _nextOnMax(e) {
+    const code = e.keyCode || e.which;
+    if (this.acceptableKeyCodes.indexOf(code) > -1) {
+      return;
+    }
     const { input: { onChange } } = this.props;
 
     const input = e.currentTarget;
@@ -19,15 +31,35 @@ export default class LinkedInputs extends React.Component {
     const inputValue = input.value;
     
     this.values[inputIndex] = inputValue;
-    onChange(this.values.join('/'));
+    // onChange(compact(this.values).join(''));
+    onChange(compact(this.values).join('/'));
 
     if (inputValue.length === inputMaxLength && input.nextElementSibling) {
       input.nextElementSibling.focus();
+    } else if (inputValue.length === 0 && input.previousElementSibling) {
+      input.previousElementSibling.focus();
     }
   }
 
+  _diplayHint() {
+    this.setState({
+      showHint: true,
+    })
+  }
+
+  _hideHint() {
+    this.setState({
+      showHint: false,
+    });
+
+    const debounced = debounce(() => {
+      this.props.meta.touched = true;
+    }, 250);
+    debounced();
+  }
+
   render() {
-    const { fields } = this.props;
+    const { fields, meta:{touched, error, warning, invalid}, hint } = this.props;
 
     return (
       <fieldset>
@@ -44,9 +76,17 @@ export default class LinkedInputs extends React.Component {
               placeholder={field.placeholder}
               onKeyUp={(e) => this._nextOnMax(e)}
               data-index={index}
+              onFocus={() => this._diplayHint()}
+              onBlur={() => this._hideHint()}
             />
           )
         })}
+
+        {this.state.showHint && 
+          <div>{hint}</div>}
+
+        {(touched) && ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
       </fieldset>
     )
   }

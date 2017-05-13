@@ -3,7 +3,7 @@ import './App.css';
 
 import { Values } from 'redux-form-website-template';
 
-import SimpleForm from './SimpleForm'
+import SimpleForm from './SimpleForm';
 
 class App extends Component {
   handleSubmit(values) {
