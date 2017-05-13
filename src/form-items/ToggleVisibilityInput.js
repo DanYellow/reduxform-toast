@@ -20,11 +20,11 @@ export default class ToggleVisibilityInput extends React.Component {
   render() {
     const {
       input,
-      meta: {touched, error, warning, active},
+      meta: {touched, error, warning, active, visited, invalid},
       hint
     } = this.props;
-    const inputType = (this.state.isValueVisible) ? 'text' : 'password';
 
+    const inputType = (this.state.isValueVisible) ? 'text' : 'password';
     const clonedInputProps = cloneDeep(input);
     clonedInputProps.type = inputType;
 
@@ -36,10 +36,10 @@ export default class ToggleVisibilityInput extends React.Component {
             <button type='button' onClick={() => this._toggleVisibility()}>Toggle</button>
           </div>
 
-        {active && 
+        {(active && invalid) && 
           <div>{hint}</div>}
 
-        {touched &&
+        {(touched || (!active && visited)) &&
                 ((error && <span>{error}</span>) ||
                   (warning && <span>{warning}</span>))}
       </fieldset>

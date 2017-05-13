@@ -1,7 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { map, compact, debounce } from 'lodash';
-import uuidV4 from 'uuid/v4';
 
 export default class LinkedInputs extends React.Component {
   constructor(props) {
@@ -59,17 +58,17 @@ export default class LinkedInputs extends React.Component {
   }
 
   render() {
-    const { fields, meta:{touched, error, warning, invalid}, hint } = this.props;
+    const { fields, meta:{touched, error, warning, invalid, active}, hint } = this.props;
+    console.log('active', this.props);
 
     return (
       <fieldset>
         <label>Date de naissance</label>
         {map(fields, (field, index) => {
-          const key = field.name || uuidV4();
           return (
             <Field
-              name={key}
-              key={key}
+              name={field.name}
+              key={field.name}
               component='input'
               type={field.type || 'text'}
               maxLength={field.maxlength}
@@ -82,7 +81,7 @@ export default class LinkedInputs extends React.Component {
           )
         })}
 
-        {this.state.showHint && 
+        {(active) &&
           <div>{hint}</div>}
 
         {(touched) && ((error && <span>{error}</span>) ||
