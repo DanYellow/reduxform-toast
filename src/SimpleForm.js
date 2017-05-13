@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, FormSection } from 'redux-form';
 
 import LinkedInputs from './form-items/LinkedInputs';
 
@@ -32,6 +32,10 @@ const SimpleForm = (props) => {
 
         <Field name="date" component={LinkedInputs} props={{ fields: dateFields }}/>
 
+        <FormSection name='birthdate'>
+          <LinkedInputs fields={dateFields} />
+        </FormSection>
+        
         <Field
           name='hello'
           component='input'
