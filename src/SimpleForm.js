@@ -1,41 +1,95 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { map } from 'lodash';
+import uuidV4 from 'uuid/v4';
+
 
 const LinkedInputs = (props) => {
   let { input: { value, onChange }, fields } = props;
+  let values = [];
 
   const _nextOnMax = (e) => {
     const input = e.currentTarget;
     const inputMaxLength = Number(input.getAttribute('maxlength'));
+    const inputIndex = Number(input.getAttribute('data-index'));
+    const inputValue = input.value;
     
     onChange(value + 1)
-    if (input.value.length === inputMaxLength && input.nextElementSibling) {
+
+    values[inputIndex] = inputValue;
+    if (inputValue.length === inputMaxLength && input.nextElementSibling) {
       input.nextElementSibling.focus();
     }
   }
 
-  console.log('fields', fields)
-
-
   return (
     <div>
-
-      {map(fields, (field) => {
+      {map(fields, (field, index) => {
+        const key = field.name || uuidV4();
         return (
           <Field
-            name='jj'
+            name={key}
+            key={key}
             component='input'
             type={field.type || 'text'}
             maxLength={field.maxlength}
             placeholder={field.placeholder}
             onKeyUp={_nextOnMax}
+            data-index={index}
           />
         )
       })}
     </div>
   )
 }
+
+// class LinkedInputs extends React.Component {
+//   constructor(props) {
+//     super(props);
+    
+//     this.values = [];
+//   }
+
+//   _nextOnMax(e) {
+//     const input = e.currentTarget;
+//     const inputMaxLength = Number(input.getAttribute('maxlength'));
+//     const inputIndex = Number(input.getAttribute('data-index'));
+//     const inputValue = input.value;
+    
+//     this.props.input.onChange(this.props.input.value + 1)
+
+//     this.values[inputIndex] = inputValue;
+//     console.log(this.values, inputIndex);
+//     if (inputValue.length === inputMaxLength && input.nextElementSibling) {
+//       input.nextElementSibling.focus();
+//     }
+//   }
+
+//   render() {
+//     let { input: { value, onChange }, fields } = this.props;
+
+//     return (
+//       <div>
+//         {map(fields, (field, index) => {
+//           console.log('index', index);
+//           const key = field.name || uuidV4();
+//           return (
+//             <Field
+//               name={key}
+//               key={key}
+//               component='input'
+//               type={field.type || 'text'}
+//               maxLength={field.maxlength}
+//               placeholder={field.placeholder}
+//               onKeyUp={(e) => this._nextOnMax(e)}
+//               data-index={index}
+//             />
+//           )
+//         })}
+//       </div>
+//     )
+//   }
+// }
 
 class MyCustomInput extends React.Component {
   render() {
@@ -57,10 +111,12 @@ const SimpleForm = (props) => {
   const dateFields = [{
       type: 'text',
       maxlength: 4,
-      placeholder: 'JJ'
+      placeholder: 'JJ',
+      name: 'JJ'
     }, {
       maxlength: 5,
-      placeholder: 'MM'
+      placeholder: 'MM',
+      name: 'MM'
     }];
 
   return (
@@ -80,7 +136,7 @@ const SimpleForm = (props) => {
 
 
           <Field
-            name='firstName'
+            name='hello'
             component='input'
             type='text'
             placeholder='First Name'
