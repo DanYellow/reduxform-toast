@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, reduxForm, FieldArray, Fields } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 
 import LinkedInputs from './form-items/LinkedInputs';
@@ -9,7 +9,7 @@ import MultipleRadioButtons from './form-items/MultipleRadioButtons';
 
 import validate from './validate';
 
-const SimpleForm = (props) => {
+let SimpleForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
 
   const dateFields = [{

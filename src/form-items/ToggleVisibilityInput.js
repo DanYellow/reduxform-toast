@@ -1,5 +1,4 @@
 import React from 'react';
-import { Field } from 'redux-form';
 import { cloneDeep } from 'lodash';
 
 import classNames from 'classnames';
