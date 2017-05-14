@@ -1,37 +1,13 @@
 import React from 'react';
 import { Field, reduxForm, FieldArray, Fields } from 'redux-form';
+import { connect } from 'react-redux'
 
 import LinkedInputs from './form-items/LinkedInputs';
 import ToggleVisibilityInput from './form-items/ToggleVisibilityInput';
 import MultipleRadioButtons from './form-items/MultipleRadioButtons';
 
 
-const required = value => (value ? undefined : 'Required');
-
-const tooOld = value =>
-  value && value > 65 ? 'You might be too old for this' : undefined
-
-
-
-const renderFields = (fields) => {
-
-  console.log('fields', fields);
-  return (
-    <div>
-      <div className="input-row">
-        <input {...fields.firstName.input} type="text"/>
-        {fields.firstName.meta.touched && fields.firstName.meta.error && 
-         <span className="error">{fields.firstName.meta.error}</span>}
-      </div>
-      <div className="input-row">
-        <input {...fields.lastName.input} type="text"/>
-        {fields.lastName.meta.touched && fields.lastName.meta.error && 
-         <span className="error">{fields.lastName.meta.error}</span>}
-      </div>
-    </div>
-  )
-}
-
+import validate from './validate';
 
 const SimpleForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props;
@@ -79,34 +55,25 @@ const SimpleForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-
         <Field name='date' 
-          validate={[required]}
           component={LinkedInputs}
           props={{ fields: dateFields, hint: 'Remplir au format Jour/Mois/Annee' }}
         />
 
         <Field 
-          name='foo'
-          validate={required}
+          name='password'
           component={ToggleVisibilityInput}
           placeholder='mot de passe'
           type='text'
           props={{ hint: <p>Mot de passe sécurisé</p> }}
         />
 
-        <FieldArray
+        <Field
           name='buyer'
-          validate={required}
           props={{ content: radiosDatas }}
           component={MultipleRadioButtons}
         />
       </div>
-
-      <Fields 
-      validate={required}
-      anotherCustomProp="Some other information"
-      names={[ 'firstName', 'lastName' ]} component={renderFields}/>
 
       <div>
         <button type='submit' disabled={submitting}>Submit</button>
@@ -118,7 +85,22 @@ const SimpleForm = (props) => {
   );
 };
 
-export default reduxForm({
+SimpleForm = reduxForm({
   form: 'simple',
-  fields: [ 'foo', 'password', 'date' ]
+  fields: ['password', 'buyer'],
+  validate
 })(SimpleForm);
+
+
+const mapStateToProps = (state) => {
+  return {
+    initialValues: {
+      password: 'Some String',
+    },
+  }
+}
+
+SimpleForm = connect(mapStateToProps, null)(SimpleForm)
+
+
+export default SimpleForm;

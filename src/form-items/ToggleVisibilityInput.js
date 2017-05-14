@@ -36,7 +36,7 @@ export default class ToggleVisibilityInput extends React.Component {
             <button type='button' onClick={() => this._toggleVisibility()}>Toggle</button>
           </div>
 
-        {(active && invalid) && 
+        {active && 
           <div>{hint}</div>}
 
         {(touched || (!active && visited)) &&
