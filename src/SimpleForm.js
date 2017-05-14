@@ -55,7 +55,7 @@ const SimpleForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Field name='date' 
+        <Field name='birthdate'
           component={LinkedInputs}
           props={{ fields: dateFields, hint: 'Remplir au format Jour/Mois/Annee' }}
         />
@@ -87,7 +87,6 @@ const SimpleForm = (props) => {
 
 SimpleForm = reduxForm({
   form: 'simple',
-  fields: ['password', 'buyer'],
   validate
 })(SimpleForm);
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { cloneDeep } from 'lodash';
 
+import classNames from 'classnames';
+
 export default class ToggleVisibilityInput extends React.Component {
   constructor(props) {
     super(props);
@@ -28,8 +30,10 @@ export default class ToggleVisibilityInput extends React.Component {
     const clonedInputProps = cloneDeep(input);
     clonedInputProps.type = inputType;
 
+    const hasError = (touched && error) || (!active && visited && invalid);
+
     return (
-      <fieldset>
+      <fieldset className={classNames({error: hasError})}>
         <label>Mot de passe</label>
           <div className='inputContainer'>
             <input {...clonedInputProps} placeholder={input.placeholder} type={clonedInputProps.type} />

@@ -4,29 +4,12 @@ import { map } from 'lodash';
 import uuidV4 from 'uuid/v4';
 import classNames from 'classnames';
 
-
-const required = value => (value ? undefined : 'Required');
-
-
 export default class MultipleRadioButtons extends React.Component {
   constructor(props) {
     super(props);
-
-    this.nbItems = this.props.content.items.length
-    this.values = [];
   }
 
-  _handleChange(e) {
-    const input = e.currentTarget;
-    const inputIndex = Number(input.getAttribute('data-index'));
-
-    this.values[inputIndex] = input.value;
-
-    this.props.input.onChange(this.values);
-    // console.log('e',)
-  }
-
-  _renderInputItem (item, index) {
+  _renderInputItem (item) {
     const uuid = uuidV4();
     return (
       <label key={uuid} htmlFor={uuid}>
@@ -35,9 +18,7 @@ export default class MultipleRadioButtons extends React.Component {
           id={uuid} 
           component='input'
           type='radio'
-          validate={required}
-          data-index={index}
-          onChange={(e) => { this._handleChange(e)}}
+
           value={item.value} />
         {item.label}
       </label>
@@ -69,8 +50,6 @@ export default class MultipleRadioButtons extends React.Component {
     } = this.props;
 
     const hasError = touched && error;
-
-    console.log('this.props', this.props);
 
     return (
       <fieldset className={classNames({error: hasError})}>

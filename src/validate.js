@@ -7,9 +7,12 @@ const validate = values => {
     errors.password = `Requis. C'est important un mot de passe`;
   }
 
-  console.log('values', values);
   if (!values.courrier || !values.mail) {
     errors.buyer = `Requis. Ça aussi`;
+  }
+
+  if (!values.JJ) {
+    errors.birthdate = `hello`
   }
 
   return errors;

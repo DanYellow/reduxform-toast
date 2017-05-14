@@ -2,6 +2,8 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { map, compact, debounce } from 'lodash';
 
+import classNames from 'classnames';
+
 export default class LinkedInputs extends React.Component {
   constructor(props) {
     super(props);
@@ -51,18 +53,19 @@ export default class LinkedInputs extends React.Component {
       showHint: false,
     });
 
-    const debounced = debounce(() => {
-      this.props.meta.touched = true;
-    }, 250);
-    debounced();
+    // const debounced = debounce(() => {
+    //   this.props.meta.touched = true;
+    // }, 250);
+    // debounced();
   }
 
   render() {
-    const { fields, meta:{touched, error, warning, invalid, active}, hint } = this.props;
-    console.log('active', this.props);
+    const { fields, meta:{touched, error, warning, active, visited}, hint } = this.props;
+
+    const hasError = (touched && error) || (!active && visited);
 
     return (
-      <fieldset>
+      <fieldset className={classNames({error: hasError})}>
         <label>Date de naissance</label>
         {map(fields, (field, index) => {
           return (
@@ -81,7 +84,7 @@ export default class LinkedInputs extends React.Component {
           )
         })}
 
-        {(active) &&
+        {(this.state.showHint) &&
           <div>{hint}</div>}
 
         {(touched) && ((error && <span>{error}</span>) ||

@@ -10,3 +10,9 @@
   color: white;
   margin-bottom: 15px;
 }
+
+
+.error {
+  border-color: 1px solid red;
+  background-color: rgba(160, 10, 5, .3);
+}
