@@ -13,6 +13,6 @@
 
 
 .error {
-  border-color: 1px solid red;
+  border: 1px solid red;
   background-color: rgba(160, 10, 5, .3);
 }

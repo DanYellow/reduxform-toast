@@ -1,5 +1,8 @@
-const validate = values => {
-  const errors = {}
+import moment from 'moment';
+
+const validate = (values, foo) => {
+  const errors = {};
+
   if (!values.username) {
     errors.username = 'Required';
   }
@@ -8,12 +11,17 @@ const validate = values => {
   }
 
   if (!values.courrier || !values.mail) {
-    errors.buyer = `Requis. Ça aussi`;
+    errors.buyer = `Requis ça aussi`;
   }
 
-  if (!values.JJ) {
-    errors.birthdate = `hello`
+  if (!values.subscription) {
+    errors.buyer2 = 'Requis également.'
   }
+
+  if (!moment(values.birthdate,'DD/MM/YYYY', true).isValid()) {
+    errors.birthdate = `Not a valid date`
+  }
+
 
   return errors;
 }

@@ -52,6 +52,21 @@ const SimpleForm = (props) => {
     }]
   };
 
+    const subscriptionRadiosDatas = {
+      title: 'Hello',
+      items:[{
+        label: 'Souscrire',
+        name: 'subscription',
+        items: [{
+          value: 'oui',
+          label: 'Oui',
+        }, {
+          value: 'non',
+          label: 'Non'
+        }]
+      }]
+    };
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -73,6 +88,19 @@ const SimpleForm = (props) => {
           props={{ content: radiosDatas }}
           component={MultipleRadioButtons}
         />
+
+        <Field
+          name='buyer2'
+          props={{ content: subscriptionRadiosDatas }}
+          component={MultipleRadioButtons}
+        />
+
+        <Field name="favoriteColor" component="select">
+            <option />
+            <option value="ff0000">Red</option>
+            <option value="00ff00">Green</option>
+            <option value="0000ff">Blue</option>
+          </Field>
       </div>
 
       <div>

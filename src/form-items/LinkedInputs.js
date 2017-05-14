@@ -45,7 +45,9 @@ export default class LinkedInputs extends React.Component {
   _diplayHint() {
     this.setState({
       showHint: true,
-    })
+    });
+    
+    this.props.meta.touched = true;
   }
 
   _hideHint() {
@@ -63,6 +65,7 @@ export default class LinkedInputs extends React.Component {
     const { fields, meta:{touched, error, warning, active, visited}, hint } = this.props;
 
     const hasError = (touched && error) || (!active && visited);
+
 
     return (
       <fieldset className={classNames({error: hasError})}>
