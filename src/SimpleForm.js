@@ -113,9 +113,14 @@ let SimpleForm = (props) => {
   );
 };
 
+const onSubmitFail = (errors, dispatch, submitError, props) => {
+  console.log(errors, dispatch, submitError, props);
+}
+
 SimpleForm = reduxForm({
   form: 'simple',
-  validate
+  validate,
+  onSubmitFail: onSubmitFail
 })(SimpleForm);
 
 

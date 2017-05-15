@@ -18,7 +18,7 @@ const validate = (values, foo) => {
     errors.buyer2 = 'Requis également.'
   }
 
-  if (!moment(values.birthdate,'DD/MM/YYYY', true).isValid()) {
+  if (!moment(values.birthdate,'D/M/YYYY', true).isValid()) {
     errors.birthdate = `Not a valid date`
   }
 
